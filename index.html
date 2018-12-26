@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>QRREP - QRコードのURLを差し替えるツール</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" integrity="sha256-2pUeJf+y0ltRPSbKOeJh09ipQFYxUdct5nTY6GAXswA=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./styles/main.css">
+</head>
+<body>
+    <div id="app">
+        <a href="https://github.com/rytmrt/qrrep"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+        <section class="hero is-warning is-bold">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">QRREP</h1>
+                    <h2 class="subtitle">QRコードの文字列を置換するツール</h2>
+                    <!-- <a href="/url-creator/" class="button is-warning is-inverted is-outlined">専用URL作成ツール</a> -->
+                </div>
+            </div>
+        </section>
+        <component :is="page"></component>
+        <footer class="footer">
+        <div class="content has-text-centered">
+            <p><strong>"QRREP"</strong> created by rytmrt.</p>
+        </div>
+        </footer>
+    </div>
+
+    <template id="template-route-top">
+        <div>
+            <section class="section">
+                <div class="container">
+                    <div class="is-margin-bottom-3">
+                        <div class="is-margin-bottom-1">
+                            <button @click="toReadQr" class="button is-large is-primary is-fullwidth">QR取得</button>
+                        </div>
+                        <div class="field">
+                            <label class="label">読み込んだQRコードの内容</label>
+                            <div class="control">
+                                <textarea class="textarea" placeholder="http://aaaa.com" v-model="qrcodeData" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="is-margin-bottom-3">
+                        <div class="field">
+                            <label class="label">検索する文字列</label>
+                            <div class="control">
+                                <input class="input" placeholder="http://aaaa.com" v-model="searchStr"></input>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">置換する文字列</label>
+                            <div class="control">
+                                <div class="select is-margin-bottom-1">
+                                    <select v-model="changeUrl">
+                                        <option disabled value="">Please select one</option>
+                                        <option v-for="item in selectItems">{{ item }}</option>
+                                    </select>
+                                </div>
+                                <input type="text" class="input" v-if="changeUrl === 'その他'" v-model="changeUrlOther" id="change-url-other-input">
+                            </div>
+                        </div>
+                        <button @click="createChangeUrl" class="button is-large is-info is-fullwidth">URLを変更する</button>
+                    </div>
+                    <div class="is-margin-bottom-3">
+                        <div class="field">
+                            <label class="label">変更後のURL</label>
+                            <div class="control">
+                                <textarea class="textarea" placeholder="変更後のURL" v-model="changedQrcodeData"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <figure class="image">
+                        <img :src="changedQrcodeImg" class="is-1by1">
+                    </figure>
+                </div>
+            </section>
+        </div>
+    </template>
+
+    <template id="template-route-qrread">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-full">
+                    <button class="button is-large is-fullwidth is-warning" @click="toTop">もどる</button>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column is-full">
+                    <video id="qrcamera" style="width:100%;height:100%;" webkit-playsinline playsinline autoplay></video>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="./scripts/main.js" type="module" crossorigin="anonymous"></script>
+</body>
+</html>
