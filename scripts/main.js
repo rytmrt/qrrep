@@ -6,7 +6,7 @@ import 'https://cdn.jsdelivr.net/npm/jsqr@1.1.1/dist/jsQR.min.js'
 const QR_BASE_URL = 'https://chart.apis.google.com/chart?chs=320x320&cht=qr&chl='
 const OTHER_SELECT_ITEM = 'その他'
 let _GET = new URLSearchParams(window.location.search);
-let selectItems = [OTHER_SELECT_ITEM].concat(_GET.getAll('u[]'))
+let selectItems = _GET.getAll('u[]').concat([OTHER_SELECT_ITEM])
 
 Vue.component('route-top', {
     template: '#template-route-top',
@@ -133,7 +133,7 @@ let app = new Vue({
         page: 'route-top',
         qrcodeData: '',
         changedQrcodeData: '',
-        changeUrl: OTHER_SELECT_ITEM,
+        changeUrl: _GET.get('u[]') || OTHER_SELECT_ITEM,
         changeUrlOther: '',
         searchStr: _GET.get('s'),
         intervalId: null,
